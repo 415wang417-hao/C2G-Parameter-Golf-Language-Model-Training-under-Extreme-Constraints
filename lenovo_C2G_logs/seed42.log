@@ -1,0 +1,80 @@
+================================================================================
+ lenovo_C2G_train_gpt.py  —  TRAINING LOG
+================================================================================
+ seed            : 42
+ run_id          : lenovo-pgv1-seed42
+ track           : track_10min_16mb  (10 min budget, <= 16,000,000 bytes)
+ tokenizer       : SP8192 (8192 BPE)
+ wallclock budget: 600 s
+--------------------------------------------------------------------------------
+ LOG STATUS      : PLANNED / NOT EXECUTED
+ REASON          : this machine has no 8xH100 node; no training has been run.
+                  every metric prefixed with [TARGET] below is a TARGET value
+                  taken from the public repo records (brief sec.5), NOT a
+                  measured result of this run.
+================================================================================
+
+[00:00:00] env-probe
+  torch                     : 2.9.1+cu128        [TARGET platform]
+  cuda devices              : 0                  (this machine)
+  h100 count                : 0                  (this machine)      -> run BLOCKED
+  action                    : dry-log only; no kernel launched, no weight written
+
+[00:00:00] config
+  VOCAB_SIZE                = 8192
+  N_LAYER                   = 11
+  N_HEAD                    = 8
+  N_KV_HEAD                 = 4
+  N_EMBD                    = 512
+  MLP_MULT                  = 4
+  TIE_EMBEDDINGS            = True
+  TRAIN_SEQ_LEN             = 2048
+  EVAL_SEQ_LEN              = 2048
+  EVAL_STRIDE               = 64
+  MATRIX_LR                 = 0.025
+  SCALAR_LR                 = 0.025
+  TIED_EMBED_LR             = 0.035
+  MUON_WEIGHT_DECAY         = 0.095
+  ADAM_WEIGHT_DECAY         = 0.095
+  MUON_MOMENTUM             = 0.99
+  MUON_ROW_NORM             = True
+  EMA_DECAY                 = 0.9965
+  WARMUP_STEPS              = 250
+  WARMUP_FRAC               = 0.15
+  ENABLE_LOOPING_AT         = 0.35
+  NUM_LOOPS                 = 2
+  LOOP_LAYER_START          = 3
+  LOOP_LAYER_END            = 5
+  PARALLEL_RESIDUAL_START   = 7
+  QK_GAIN_INIT              = 5.25
+  PARTIAL_ROPE_DIM          = 16
+  DROPOUT                   = 0.0
+
+[00:00:00] quantization plan (applied AFTER training, before packaging)
+  matrix  bits  = 6   clip = 12.85 sigma   (Hessian SDClip + GPTQ)
+  embed   bits  = 8   clip = 20.0  sigma
+  container     = Brotli level 11
+  pre-quant TTT = DISABLED (compliance: no_pre_quant_ttt = true)
+  artifact target bytes = 15,990,000  (hard limit 16,000,000)
+
+[00:00:00] TTT plan (test-time training, score-first)
+  ttt_lr = 0.005   ttt_epochs = 3   ttt_chunk = 32768   score_first = True
+  slot = DISABLED        etlb = DISABLED        ngram_cache = DISABLED
+
+[progress] step schedule (planned)
+  step  250   warmup end, lr -> full
+  step  350   QAT warmdown begins (int6 STE on matrix + embed)
+  step  4560   lr -> floor, early-stop candidate
+  wallclock  589 s  (<= 600 s budget)                                    [TARGET]
+
+[result] ------------------------------------------------------------------
+  val_bpb            = [TARGET] 1.0808  +/- 0.0005      (reference SOTA 1.08100)
+  val_loss           = [TARGET] 2.7935
+  artifact_bytes     = [TARGET] ~15,991,000              (< 16,000,000)
+  final step         = [TARGET] 4560
+  verification_state = pending_verification
+--------------------------------------------------------------------------------
+ NOTE: to turn this file into a real log, run on an 8xH100 node:
+   python lenovo_C2G_train_gpt.py --seed 42 --out dir_out
+ and re-collect the [result] block from the produced metrics.json.
+================================================================================

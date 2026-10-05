@@ -1,0 +1,86 @@
+{
+  "author": "lenovo",
+  "github_id": "lenovo",
+  "name": "SP8192 + 3-Layer Recurrence + Parallel Residuals + MuonEq-R + QK-Gain 5.25 + Legal Score-First TTT + SDClip + All-Int6 GPTQ (lenovo-PG v1)",
+  "date": "2026-10-04",
+  "track": "10min_16mb",
+
+  "val_bpb": 1.081,
+  "val_bpb_std": null,
+  "seeds": [0, 42, 1234],
+  "seed_results": null,
+
+  "hardware": "8xH100 80GB SXM (TARGET PLATFORM)",
+  "pytorch_version": "2.9.1+cu128 (TARGET)",
+
+  "technique_summary": "SP8192 (8192 BPE) + 11L x 512d / 8H / 4KV + 3-Layer Depth Recurrence (L3-L5) + Parallel Residuals (L7+) + MuonEq-R (WD 0.095) + QK-Gain 5.25 + EMA 0.9965 + Legal Score-First TTT (SGD, 3 epochs, chunk 32K) + Hessian SDClip + All-Int6 GPTQ (matrix 6-bit @ 12.85 sigma, embedding 8-bit @ 20.0 sigma) + Brotli level 11",
+
+  "artifact_bytes": null,
+  "artifact_bytes_target": 15990000,
+  "artifact_bytes_hard_limit": 16000000,
+
+  "compliance": {
+    "train_under_600s": null,
+    "artifact_under_16mb": null,
+    "eval_under_600s": null,
+    "no_slot": true,
+    "no_pre_quant_ttt": true,
+    "no_etlb": true,
+    "no_ngram_cache": true,
+    "score_first_ttt": true,
+    "three_seeds": null
+  },
+
+  "attribution": {
+    "sp8192_gptq_sdclip": "@clarkkev (PR #1394)",
+    "depth_recurrence": "@dexhunter (PR #1331, #1437)",
+    "parallel_residuals": "@Robby955 (PR #1412), @msisovic (PR #1204)",
+    "legal_ttt_framework": "@abaybektursun (PR #549), @dexhunter (PR #1413)",
+    "hyperparameter_tuning": "@X-Abhishek-X (PR #1445)",
+    "qk_gain": "@bigbag (record 2026-04-09)"
+  },
+
+  "verification_status": "pending_verification",
+  "verification_note": "val_bpb = 1.0810 is the TARGET value derived from the current public SOTA (records/track_10min_16mb/2026-04-09_SP8192_3LayerRecur_ParResid_QK525_LegalTTT, author bigbag, val_bpb = 1.08100, val_bpb_std = 0.00020). It is NOT a measured result of this submission. This machine has no 8xH100 node, therefore no training run has been executed for this entry. All fields set to null (val_bpb_std, seed_results, artifact_bytes, compliance timing flags, three_seeds) MUST be filled from real run logs (see lenovo_C2G_logs/) before this entry is promoted to a verified record. Do NOT treat this file as a measured record.",
+
+  "reference_results": {
+    "naive_baseline": {
+      "author": "Baseline",
+      "dir": "2026-03-17_NaiveBaseline",
+      "val_bpb": 1.2243657,
+      "bytes_total": 15863489
+    },
+    "current_sota": {
+      "author": "bigbag",
+      "dir": "2026-04-09_SP8192_3LayerRecur_ParResid_QK525_LegalTTT",
+      "val_bpb": 1.081,
+      "val_bpb_std": 0.0002,
+      "seeds": [42, 314, 999],
+      "seed_results": {
+        "42": {"val_bpb": 1.08079, "artifact_bytes": 15991930},
+        "314": {"val_bpb": 1.08103, "artifact_bytes": 15992919},
+        "999": {"val_bpb": 1.08118, "artifact_bytes": 15993232}
+      }
+    },
+    "runner_up_3seed_same_seed_set_as_ours": {
+      "author": "dexhunter",
+      "dir": "2026-04-06_SP8192_QK5_LegalTTT_1.0828",
+      "val_bpb": 1.08279384,
+      "seeds": [0, 42, 1234],
+      "seed_results": {
+        "0": {"val_bpb": 1.08209788, "val_loss": 2.79517119, "bytes_total": 15991018},
+        "42": {"val_bpb": 1.083148, "val_loss": 2.79788378, "bytes_total": 15992546},
+        "1234": {"val_bpb": 1.08313564, "val_loss": 2.79785185, "bytes_total": 15989058}
+      }
+    }
+  },
+
+  "reproduce": {
+    "script": "lenovo_C2G_train_gpt.py",
+    "seeds": [0, 42, 1234],
+    "wallclock_budget_seconds": 600,
+    "command_multi_seed": "python lenovo_C2G_train_gpt.py --seeds 0,42,1234 --out dir_out",
+    "command_single_seed": "python lenovo_C2G_train_gpt.py --seed 42",
+    "artifact": "lenovo_C2G_submission.tar.gz"
+  }
+}
