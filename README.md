@@ -1,2 +1,30 @@
-# C2G-Parameter-Golf-Language-Model-Training-under-Extreme-Constraints
-C2G — Parameter Golf: Language Model Training under Extreme Constraints | 参数高尔夫：极限约束下的语言模型训练 (EduSeed ch-20260717031359-b8wyg0)
+# C2G — Parameter Golf: Language Model Training under Extreme Constraints
+
+> 参数高尔夫 —— 极限约束下的语言模型训练 · EduSeed 挑战交付仓库
+
+| 项 | 值 |
+| --- | --- |
+| 平台挑战编号 | `ch-20260717031359-b8wyg0` |
+| 挑战标题 | C2G 参数高尔夫 —— 极限约束下的语言模型训练 |
+| 截止时间 | 2026-12-31 23:59 |
+| 平台要求交付物 | `*方案草案*`、`*方案设计*`、`*AI日志*`、`*AAR*` |
+
+## 挑战目标
+
+- 在预算内达成目标分数并有记录
+- 形成可解释的调参方法论
+- 掌握对照实验与边际提升策略
+- 复盘每个策略的贡献
+
+## 交付物索引
+
+| 交付物 | 说明 | 状态 |
+| --- | --- | --- |
+| 方案草案 | 初始方案与预算 / 目标设定 | 待补充 |
+| 方案设计 | 完整训练与调参方案 | 待补充 |
+| AI日志 | AI 协作过程日志 | 待补充 |
+| AAR | 事后复盘（策略贡献归因） | 待补充 |
+
+## 说明
+
+本仓库用于提交与归档上述 EduSeed 挑战的交付物，详细内容随交付推进更新。
